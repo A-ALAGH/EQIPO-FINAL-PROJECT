@@ -4,6 +4,7 @@ const bodyParser = require ('body-parser');
 const userRoutes = require ('./routes/userRoutes')
 const sportEventRoutes = require ('./routes/sportEventRoutes')
 const loisirEventRoutes = require ('./routes/loisirEventRoutes')
+const demandeRoutes = require ('./routes/demandeRoutes')
 require('dotenv').config({path:'./config/.env'});
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/api/user', userRoutes)
 app.use('/api/sportevent', sportEventRoutes)
 app.use('/api/loisirevent', loisirEventRoutes)
+app.use('api/demande', demandeRoutes)
 
 app.listen (process.env.PORT, ()=>{
     console.log(`listening on port ${process.env.PORT}`);
