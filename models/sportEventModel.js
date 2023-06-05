@@ -1,37 +1,15 @@
 const mongoose = require('mongoose');
+const Event = require('./eventModel');
 
-const eventSchema = new mongoose.Schema({
- date: {
- type: Date,
- required: true
- },
- heure: {
- type: String,
- required: true
- },
- lieu: {
- type: String,
- required: true
- },
- type: {
- type: String,
- required: true
- },
- activité: {
- type: String,
- required: true
- },
- participations: [{
- type: mongoose.Schema.Types.ObjectId,
- ref: 'user'
- }],
- organisateur:{
- type: mongoose.Schema.Types.ObjectId,
- ref:'user',
- required:true
- },
-nombre_participants:{type:Number,
-    required: true}
+// Modèle de SportEvent (dérivé de Event)
+const SportEventSchema = new mongoose.Schema({
+  activité: {
+    type: String,
+    default:'sport',
+    required: true
+  }
 });
 
-module.exports = mongoose.model('Event', eventSchema);
+const SportEvent = Event.discriminator('SportEvent',SportEventSchema);
+
+module.exports = SportEvent
