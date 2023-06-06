@@ -19,10 +19,6 @@ const eventRequestSchema = new mongoose.Schema({
   messageToOrganizer: {
     type: String,
     required: true
-  },
-  isBringingEquipment: {
-    type: Boolean,
-    default: false
   }
 }, { timestamps: true });
 

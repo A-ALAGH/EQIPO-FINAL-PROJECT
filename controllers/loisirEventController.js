@@ -2,9 +2,9 @@ const LoisirEvent = require('../models/loisirEventModel');
 
 module.exports.createLoisirEvent = async (req, res) => {
   console.log(req.body);
-  const { date, heure,lieu, activité, participations, organisateur, nombre_places } = req.body;
+  const { date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles } = req.body;
   try {
-    const loisirEvent = await LoisirEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places });
+    const loisirEvent = await LoisirEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles });
     res.status(201).json(loisirEvent);
   } catch (err) {
     res.status(400).json({ message: err.message });

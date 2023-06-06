@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/api/user', userRoutes)
 app.use('/api/sportevent', sportEventRoutes)
 app.use('/api/loisirevent', loisirEventRoutes)
-app.use('api/demande', demandeRoutes)
+app.use('/api/demandes', demandeRoutes)
 
 app.listen (process.env.PORT, ()=>{
     console.log(`listening on port ${process.env.PORT}`);

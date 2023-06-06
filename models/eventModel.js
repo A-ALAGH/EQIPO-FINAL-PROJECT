@@ -22,7 +22,7 @@ const eventSchema = new mongoose.Schema({
     ref: 'user',
     required: true
   },
-  nombre_places: {
+  nombre_places_disponibles: {
     type: Number,
     required: true
   }

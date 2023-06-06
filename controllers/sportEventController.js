@@ -2,9 +2,9 @@ const SportEvent = require('../models/sportEventModel');
 
 module.exports.createSportEvent = async (req, res) => {
   console.log(req.body);
-  const { date, heure,lieu, activité, participations, organisateur, nombre_places } = req.body;
+  const { date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles } = req.body;
   try {
-    const sportEvent = await SportEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places });
+    const sportEvent = await SportEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles });
     res.status(201).json(sportEvent);
   } catch (err) {
     res.status(400).json({ message: err.message });
