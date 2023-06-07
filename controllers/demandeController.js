@@ -64,34 +64,37 @@ exports.getAllEventRequests = (req, res, next) => {
 
 //accepter une participation
 exports.acceptEventRequest = async (req, res, next) => {
-    try {
-      const requestId = req.params.id;
-  
-      // Mettre à jour le statut de la demande de participation
-      await EventRequest.findByIdAndUpdate(requestId, { status: 'accepted' });
-    
-      // Récupérer l'événement correspondant à la demande de participation
-      console.log(req.body);
-      const event = await Event.findById(req.body.event);
-      console.log(event);
-      if (!event) {
-        return res.status(404).json({ error: 'Événement non trouvé' });
-      }
-  
-      // Vérifier s'il reste des places disponibles
-      if (event.nombre_places_disponibles <= 0) {
-        return res.status(400).json({ error: 'Plus de places disponibles' });
-      }
-  
-      // Mettre à jour le nombre de places disponibles
-      event.nombre_places_disponibles -= 1;
-      await event.save();
-  
-      res.status(200).json({ message: 'Demande de participation acceptée !' });
-    } catch (error) {
-      res.status(500).json({ error });
+  try {
+    const requestId = req.params.id;
+
+    // Mettre à jour le statut de la demande de participation
+    await EventRequest.findByIdAndUpdate(requestId, { status: 'accepted' });
+
+    // Récupérer l'événement correspondant à la demande de participation
+    const event = await Event.findById(req.body.event);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Événement non trouvé' });
     }
-  };
+
+    // Vérifier s'il reste des places disponibles
+    if (event.nombre_places_disponibles <= 0) {
+      return res.status(400).json({ error: 'Plus de places disponibles' });
+    }
+
+    // Mettre à jour le nombre de places disponibles
+    event.nombre_places_disponibles -= 1;
+
+    // Ajouter le demandeur à l'array participations de l'événement
+    event.participations.push(req.body.user);
+
+    await event.save();
+
+    res.status(200).json({ message: 'Demande de participation acceptée !' });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
   
   
   // Refuser une demande de participation
