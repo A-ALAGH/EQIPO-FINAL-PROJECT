@@ -1,4 +1,6 @@
 const EventRequest = require('../models/demandeParticipatioModel');
+const Event = require('../models/eventModel');
+const user = require ('../models/userModel')
 
 // Créer une demande de participation à un événement
 exports.createEventRequest = (req, res, next) => {
@@ -19,8 +21,8 @@ exports.createEventRequest = (req, res, next) => {
 // Obtenir une demande de participation par son identifiant
 exports.getEventRequestById = (req, res, next) => {
   EventRequest.findById(req.params.id)
-    // .populate('user')
-    // .populate('Event')
+    .populate('user')
+    .populate('Event')
     .then(eventRequest => {
       if (!eventRequest) {
         return res.status(404).json({ error: 'Demande de participation non trouvée !' });
@@ -69,6 +71,7 @@ exports.acceptEventRequest = async (req, res, next) => {
       await EventRequest.findByIdAndUpdate(requestId, { status: 'accepted' });
     
       // Récupérer l'événement correspondant à la demande de participation
+      console.log(req.body);
       const event = await Event.findById(req.body.event);
       console.log(event);
       if (!event) {
