@@ -31,6 +31,6 @@ function generateToken(user) {
   };
 
   // Générer le token avec une clé secrète
-  const token = jwt.sign(payload, 'votre_clé_secrète', { expiresIn: '1h' });
+  const token = jwt.sign(payload, process.env.secretKey, { expiresIn: '1h' });
   return token;
 }

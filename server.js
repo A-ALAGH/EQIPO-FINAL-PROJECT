@@ -5,7 +5,8 @@ const userRoutes = require ('./routes/userRoutes')
 const sportEventRoutes = require ('./routes/sportEventRoutes')
 const loisirEventRoutes = require ('./routes/loisirEventRoutes')
 const demandeRoutes = require ('./routes/demandeRoutes')
-require('dotenv').config({path:'./config/.env'});
+require('dotenv').config();
+
 const app = express();
 
 app.use(bodyParser.json());
