@@ -23,11 +23,14 @@ module.exports.signUp = async (req, res) => {
 
     const user = await userModel.create({ pseudo, email, password });
     const token = generateToken(user); // Générer le token JWT
-    res.status(201).json({ user: user._id, token }); // Renvoyer le token dans la réponse
+    const redirectUrl = '/'; // URL de redirection souhaitée
+
+    res.status(201).json({ user: user._id, token, redirectUrl }); // Renvoyer le token et l'URL de redirection dans la réponse
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
+
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
