@@ -2,7 +2,7 @@ const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
 module.exports.signUp = async (req, res) => {
-  const { pseudo, email, password } = req.body;
+  const { pseudo, email, password, phoneNumber, city } = req.body;
   try {
     // Vérifier si le pseudo existe déjà
     const existingUser = await userModel.findOne({ pseudo });
@@ -21,9 +21,8 @@ module.exports.signUp = async (req, res) => {
       return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 6 caractères' });
     }
 
-    const user = await userModel.create({ pseudo, email, password });
+    const user = await userModel.create({ pseudo, email, password, phoneNumber, city });
     const token = generateToken(user); // Générer le token JWT
-    const redirectUrl = '/'; // URL de redirection souhaitée
 
     res.status(201).json({ user: user._id, token, redirectUrl }); // Renvoyer le token et l'URL de redirection dans la réponse
   } catch (err) {
@@ -46,6 +45,14 @@ module.exports.login = async (req, res) => {
 module.exports.checkDuplicate = async (req, res) => {
   const { pseudo, email } = req.body;
   try {
+    if (!pseudo) {
+      return res.status(400).json({ error: 'Le pseudo est requis' });
+    }
+    
+    if (!email) {
+      return res.status(400).json({ error: 'L\'e-mail est requis' });
+    }
+
     const pseudoExists = await userModel.findOne({ pseudo });
     const emailExists = await userModel.findOne({ email });
     res.status(200).json({ pseudoExists: !!pseudoExists, emailExists: !!emailExists });
@@ -53,7 +60,6 @@ module.exports.checkDuplicate = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
-
 // Fonction pour générer le token JWT
 function generateToken(user) {
   const payload = {

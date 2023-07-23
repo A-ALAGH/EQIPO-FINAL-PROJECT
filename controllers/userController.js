@@ -6,20 +6,10 @@ module.exports.getAllUsers = async (req , res) =>{
     res.status(200).json(users)
 }
 
-// module.exports.infoUser = async (req,res) =>{
-//     console.log(req.params);
-//     if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send('ID unknown'+ req.params.id)
-//     userModel.findById (req.params.id ,(err,docs) => {
-//         if (!err) res.send (docs);
-//         else    console.log('ID unknown:'+ err);
-//     }).select('-password')
-//     //const user = await userModel.
-// }
 module.exports.infoUser = async (req,res) =>{
     try {
-    const user = await userModel.findById(req.params.id).select('-password');
-    if (!user) return res.status(400).send('ID unknown'+ req.params.id);
+    const user = await userModel.findById(req.params.userId).select('-password');
+    if (!user) return res.status(400).send('ID unknownfff'+ req.params.id);
     res.send(user);
     } catch (err) {
     console.log('ID unknown:'+ err);
@@ -28,7 +18,7 @@ module.exports.infoUser = async (req,res) =>{
    module.exports.updateUser = async (req, res) => {
     try {
       const user = await userModel.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.userId },
         {
           $set: {
             bio: req.body.bio
@@ -91,4 +81,38 @@ module.exports.infoUser = async (req,res) =>{
       console.log("ici");
     }
   };
+  module.exports.unfollow = async (req, res) => {
+    try {
+      const user = await userModel.findById(req.params.id);
+      const targetUser = await userModel.findById(req.body.idToUnfollow);
+  
+      if (!user) {
+        return res.status(404).json({ message: "Utilisateur non trouvé" });
+      }
+  
+      if (!targetUser) {
+        return res.status(404).json({ message: "Utilisateur cible non trouvé" });
+      }
+  
+      // Vérifier si l'utilisateur suit déjà la cible
+      if (!user.following.includes(req.body.idToUnfollow)) {
+        return res.status(400).json({ message: "Vous ne suivez pas déjà cet utilisateur" });
+      }
+  
+      // Retirer l'utilisateur cible de la liste des utilisateurs suivis
+      user.following = user.following.filter((followedId) => followedId.toString() !== req.body.idToUnfollow);
+  
+      // Retirer l'utilisateur actuel des followers de l'utilisateur cible
+      targetUser.followers = targetUser.followers.filter((followerId) => followerId.toString() !== req.params.id);
+  
+      await user.save();
+      await targetUser.save();
+  
+      res.status(200).json({ message: "Vous avez cessé de suivre l'utilisateur" });
+    } catch (err) {
+      res.status(500).json({ message: err });
+      console.log("ici");
+    }
+  };
+  
   

@@ -4,6 +4,7 @@ const bodyParser = require ('body-parser');
 const userRoutes = require ('./routes/userRoutes')
 const sportEventRoutes = require ('./routes/sportEventRoutes')
 const loisirEventRoutes = require ('./routes/loisirEventRoutes')
+const teamWorkEventRoutes = require ('./routes/teamWorkEventRoute')
 const demandeRoutes = require ('./routes/demandeRoutes')
 const cors = require('cors');
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/api/user', userRoutes)
 app.use('/api/sportevent', sportEventRoutes)
 app.use('/api/loisirevent', loisirEventRoutes)
+app.use ('/api/teamwork', teamWorkEventRoutes)
 app.use('/api/demandes', demandeRoutes)
 
 app.listen (process.env.PORT, ()=>{

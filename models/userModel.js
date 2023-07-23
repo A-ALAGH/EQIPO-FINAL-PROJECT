@@ -26,13 +26,19 @@ const userSchema = new mongoose.Schema(
       maxlength: 1024,
       minlength: 6
     },
-    picture: {
+    photo: {
       type: String,
-      default: "./uploads/profil/random-user.png"
+      default: "./public/images/random-user.png"
     },
-    bio :{
+    bio: {
       type: String,
       max: 1024,
+    },
+    phoneNumber: {
+      type: String
+    },
+    city: {
+      type: String
     },
     followers: {
       type: [String]
@@ -43,7 +49,7 @@ const userSchema = new mongoose.Schema(
     likes: {
       type: [String]
     }
-   },
+  },
   {
     timestamps: true,
   }
