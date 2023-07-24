@@ -1,10 +1,10 @@
 const SportEvent = require('../models/sportEventModel');
 
 module.exports.createSportEvent = async (req, res) => {
-  console.log(req.body);
-  const { date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles } = req.body;
+  console.log(req.user);
+  const { date, heure,lieu, activité, nombre_places_disponibles } = req.body;
   try {
-    const sportEvent = await SportEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles });
+    const sportEvent = await SportEvent.create({ date, heure,lieu, activité, organisateur:req.user.userId, nombre_places_disponibles });
     res.status(201).json(sportEvent);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -13,7 +13,7 @@ module.exports.createSportEvent = async (req, res) => {
 
 module.exports.getSportEvent = async (req, res) => {
   try {
-    const sportEvents = await SportEvent.find();
+    const sportEvents = await SportEvent.find().populate('organisateur');
     res.status(200).json(sportEvents);
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -20,6 +20,7 @@ const eventSchema = new mongoose.Schema({
   organisateur: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
+  
     required: true
   },
   nombre_places_disponibles: {

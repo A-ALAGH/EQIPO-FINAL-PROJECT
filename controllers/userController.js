@@ -16,18 +16,15 @@ module.exports.infoUser = async (req,res) =>{
     }
    }
    module.exports.updateUser = async (req, res) => {
+    const userId =  req.params.userId;
+     const {pseudo, email, phoneNumber, city, bio} = req.body
+
+ 
     try {
-      const user = await userModel.findOneAndUpdate(
-        { _id: req.params.userId },
+      const user = await userModel.findByIdAndUpdate(
+        req.params.userId ,
         {
-          $set: {
-            bio: req.body.bio
-          }
-        },
-        {
-          new: true,
-          upsert: true,
-          setDefaultOnInsert: true
+          pseudo, email, phoneNumber, city,bio
         }
       );
   

@@ -13,7 +13,7 @@ router.get("/:userId", userController.infoUser)
 router.put("/:userId", userController.updateUser)
 router.delete("/:userId", userController.deleteUser)
 router.patch("/follow/:id", userController.follow)
-// router.patch("/unfollow/:id", userController.unfollow)
+router.patch("/unfollow/:id", userController.unfollow)
 
 module.exports = router;
 

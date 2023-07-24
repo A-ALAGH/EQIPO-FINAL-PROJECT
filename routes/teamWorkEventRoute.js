@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const teamWorkEventController = require('../controllers/teamWorkEventController');
+const authMiddleware = require ('../middleware/authmiddleware')
 
 // Créer un nouvel événement de travail d'équipe
-router.post('/create', teamWorkEventController.createTeamWorkEvent);
+router.post('/create',authMiddleware ,teamWorkEventController.createTeamWorkEvent);
 
 // Obtenir tous les événements de travail d'équipe
 router.get('/all', teamWorkEventController.getTeamWorkEvent);

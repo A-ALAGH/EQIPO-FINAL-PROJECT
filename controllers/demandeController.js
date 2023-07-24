@@ -48,7 +48,8 @@ exports.updateEventRequest = (req, res, next) => {
 
 // Supprimer une demande de participation
 exports.deleteEventRequest = (req, res, next) => {
-  EventRequest.findByIdAndDelete(req.params.id)
+  console.log(req.params.id)
+  Event.findByIdAndDelete(req.params.id)
     .then(() => res.status(200).json({ message: 'Demande de participation supprimée !' }))
     .catch(error => res.status(400).json({ error }));
 };

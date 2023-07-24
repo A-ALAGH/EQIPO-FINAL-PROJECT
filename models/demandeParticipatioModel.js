@@ -18,7 +18,8 @@ const eventRequestSchema = new mongoose.Schema({
   },
   messageToOrganizer: {
     type: String,
-    required: true
+    default:'',
+
   }
 }, { timestamps: true });
 

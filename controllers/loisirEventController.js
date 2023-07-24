@@ -2,9 +2,9 @@ const LoisirEvent = require('../models/loisirEventModel');
 
 module.exports.createLoisirEvent = async (req, res) => {
   console.log(req.body);
-  const { date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles } = req.body;
+  const { date, heure,lieu, activité,  nombre_places_disponibles } = req.body;
   try {
-    const loisirEvent = await LoisirEvent.create({ date, heure,lieu, activité, participations, organisateur, nombre_places_disponibles });
+    const loisirEvent = await LoisirEvent.create({ date, heure,lieu, activité, organisateur:req.user.userId, nombre_places_disponibles });
     res.status(201).json(loisirEvent);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -14,7 +14,7 @@ module.exports.createLoisirEvent = async (req, res) => {
 
 module.exports.getLoisirEvents = async (req, res) => {
   try {
-    const events = await LoisirEvent.find();
+    const events = await LoisirEvent.find().populate('organisateur');
     res.status(200).json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });

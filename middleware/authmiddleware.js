@@ -5,8 +5,10 @@ const secretKey = process.env.secretKey;
 
 const authMiddleware = (req, res, next) => {
     // Récupérer le token des en-têtes de la requête
-    const token = req.headers.authorization.split(' ')[1];
-        console.log(secretKey)
+
+    const token = req.headers
+    .authorization.split(' ')[1];
+  
     if (token) {
       // Vérifier et décoder le token
       jwt.verify(token, secretKey, (err, decodedToken) => {
